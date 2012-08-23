@@ -56,6 +56,14 @@ namespace XNA2DSkeletalAnimation
             set { b_Position = value; }
         }
 
+        private Vector2 b_RotationOrigin;
+
+        public Vector2 RotationOrigin
+        {
+            get { return b_RotationOrigin; }
+            set { b_RotationOrigin = value; }
+        }
+
         private int b_Length;
 
         public int Length
@@ -72,6 +80,14 @@ namespace XNA2DSkeletalAnimation
             set { b_IsRootMaster = value; }
         }
 
+        private bool b_IsNoVis = false;
+
+        public bool IsNoVis
+        {
+            get { return b_IsNoVis; }
+            set { b_IsNoVis = value; }
+        }
+
         private String b_TextureName;
 
         public String TextureName
@@ -80,7 +96,7 @@ namespace XNA2DSkeletalAnimation
             set { b_TextureName = value; }
         }
 
-        private List<BoneKeyFrame> b_KeyFrames;
+        private List<BoneKeyFrame> b_KeyFrames = new List<BoneKeyFrame>();
 
         public List<BoneKeyFrame> KeyFrames
         {

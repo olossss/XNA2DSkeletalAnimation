@@ -9,6 +9,13 @@ namespace XNA2DSkeletalAnimation
     {
         public int time;
 
-        public int angle, length;
+        public float angle, length;
+
+        public BoneKeyFrame(int tim, float ang, float len)
+        {
+            time = tim;
+            angle = ang;
+            length = len;
+        }
     }
 }
