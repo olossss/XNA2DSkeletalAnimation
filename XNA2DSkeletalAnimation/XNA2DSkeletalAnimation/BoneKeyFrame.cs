@@ -5,7 +5,10 @@ using System.Text;
 
 namespace XNA2DSkeletalAnimation
 {
-    class BoneKeyFrame
+    struct BoneKeyFrame
     {
+        public int time;
+
+        public int angle, length;
     }
 }

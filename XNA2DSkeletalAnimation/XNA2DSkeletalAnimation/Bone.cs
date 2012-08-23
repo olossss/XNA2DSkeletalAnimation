@@ -32,6 +32,22 @@ namespace XNA2DSkeletalAnimation
             set { b_Angle = value; }
         }
 
+        private float b_MinAngle;
+
+        public float MinAngle
+        {
+            get { return b_MinAngle; }
+            set { b_MinAngle = value; }
+        }
+
+        private float b_MaxAngle;
+
+        public float MaxAngle
+        {
+            get { return b_MaxAngle; }
+            set { b_MaxAngle = value; }
+        }
+
         private Vector2 b_Position;
 
         public Vector2 Position
@@ -71,6 +87,5 @@ namespace XNA2DSkeletalAnimation
             get { return b_KeyFrames; }
             set { b_KeyFrames = value; }
         }
-
     }
 }
