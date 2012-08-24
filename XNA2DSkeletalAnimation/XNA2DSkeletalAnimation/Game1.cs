@@ -25,9 +25,10 @@ namespace XNA2DSkeletalAnimation
         private Animation chest;
         private Animation foot1;
         private Animation foot2;
-        private Texture2D origin;
 
-        private Bone root;
+        private Texture2D line;
+
+        private Bone sRoot;
         private Bone head;
         private Bone body;
         private Bone lShoulder;
@@ -35,6 +36,7 @@ namespace XNA2DSkeletalAnimation
         private Bone lArm;
         private Bone rArm;
 
+        private int time = 0;
 
         private Dictionary<String, Texture2D> textures = new Dictionary<String, Texture2D>();
 
@@ -132,69 +134,78 @@ namespace XNA2DSkeletalAnimation
             foot2.a_KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
             foot2.a_KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
 
-            root = new Bone();
-            root.IsRootMaster = true;
-            root.IsNoVis = true;
-            root.Position = new Vector2(300, 300);
-            root.Length = 0;
-            root.Angle = 0;
+            sRoot = new Bone();
+            sRoot.IsRootMaster = true;
+            sRoot.IsNoVis = true;
+            sRoot.Position = new Vector2(760/2, 480/2);
+            sRoot.Length = 0;
+            sRoot.Angle = 0;
+            sRoot.Direction = new Vector2(0, 0);
 
             head = new Bone();
-            head.Parent = root;
-            head.Position = calcBonePosition(root);
+            head.Parent = sRoot;
+            head.Position = calcPosition(head.Parent);
             head.Angle = MathHelper.ToRadians(180);
-            head.Length = 8;
-            head.RotationOrigin = new Vector2(8, 0);
-            head.TextureName = "face";
-            //head.KeyFrames.Add(new BoneKeyFrame(0, MathHelper.ToRadians(90), 8));
+            head.Length = 16;
+            head.RotationOrigin = new Vector2(3, 0);
+            head.Direction = new Vector2(0, -1);
+            head.TextureName = "arm";
 
             body = new Bone();
-            body.Parent = root;
-            body.Position = calcBonePosition(root);
+            body.Parent = sRoot;
+            body.Position = calcPosition(body.Parent);//new Vector2(0, 0) + body.Parent.Position;
             body.Angle = MathHelper.ToRadians(0);
             body.Length = 16;
-            body.RotationOrigin = new Vector2(8, 0);
-            body.TextureName = "chest";
+            body.RotationOrigin = new Vector2(3, 0);
+            body.Direction = new Vector2(0, 1);
+            body.TextureName = "arm";
 
             lShoulder = new Bone();
-            lShoulder.Parent = root;
-            lShoulder.Position = calcBonePosition(root);
+            lShoulder.Parent = sRoot;
+            lShoulder.Position = calcPosition(lShoulder.Parent); //new Vector2(0, 0) + lShoulder.Parent.Position;
             lShoulder.Angle = MathHelper.ToRadians(90);
             lShoulder.Length = 16;
             lShoulder.RotationOrigin = new Vector2(3, 0);
-            //lShoulder.IsNoVis = true;
+            lShoulder.Direction = new Vector2(-1f, 0.25f);
+            lShoulder.Direction.Normalize();
             lShoulder.TextureName = "arm";
 
             rShoulder = new Bone();
-            rShoulder.Parent = root;
-            rShoulder.Position = calcBonePosition(root);
+            rShoulder.Parent = sRoot;
+            rShoulder.Position = calcPosition(rShoulder.Parent); //new Vector2(0, 0) + rShoulder.Parent.Position;
             rShoulder.Angle = MathHelper.ToRadians(-90);
             rShoulder.Length = 16;
             rShoulder.RotationOrigin = new Vector2(3, 0);
-            //rShoulder.IsNoVis = true;
+            rShoulder.Direction = new Vector2(1f, 0.25f);
             rShoulder.TextureName = "arm";
 
             lArm = new Bone();
             lArm.Parent = lShoulder;
-            lArm.Position = calcBonePosition(lShoulder);
+            lArm.Position = calcPosition(lArm.Parent); //new Vector2(-16, 0) + lArm.Parent.Position;
             lArm.Angle = MathHelper.ToRadians(90);
-            lArm.Length = 8;
+            lArm.Length = 16;
             lArm.RotationOrigin = new Vector2(3, 0);
+            lArm.Direction = new Vector2(-1, 0);
             lArm.TextureName = "arm";
 
             rArm = new Bone();
             rArm.Parent = rShoulder;
-            rArm.Position = calcBonePosition(rShoulder);
+            rArm.Position = calcPosition(rArm.Parent); //new Vector2(16, 0) + rArm.Parent.Position;
             rArm.Angle = MathHelper.ToRadians(-90);
-            rArm.Length = 8;
+            rArm.Length = 16;
             rArm.RotationOrigin = new Vector2(3, 0);
+            rArm.Direction = new Vector2(1, 0);
             rArm.TextureName = "arm";
+            rArm.KeyFrames.Add(new BoneKeyFrame(0, 0, 16));
+            rArm.KeyFrames.Add(new BoneKeyFrame(1, MathHelper.ToRadians(30), 16));
+            rArm.KeyFrames.Add(new BoneKeyFrame(2, MathHelper.ToRadians(-60), 16));
+            rArm.KeyFrames.Add(new BoneKeyFrame(3, 0, 16));
 
-            root.Children.Add(head);
-            root.Children.Add(body);
-            root.Children.Add(lShoulder);
+            sRoot.Children.Add(head);
+            sRoot.Children.Add(body);
+            sRoot.Children.Add(lShoulder);
             lShoulder.Children.Add(lArm);
-            root.Children.Add(rShoulder);
+            sRoot.Children.Add(rShoulder);
             rShoulder.Children.Add(rArm);
 
             base.Initialize();
@@ -219,7 +230,7 @@ namespace XNA2DSkeletalAnimation
             foot1.a_Texture = Content.Load<Texture2D>("foot");
             foot2.a_Texture = Content.Load<Texture2D>("foot");
 
-            origin = Content.Load<Texture2D>("origin");
+            line = Content.Load<Texture2D>("line");
 
             textures.Add("face", face.a_Texture);
             textures.Add("chest", chest.a_Texture);
@@ -250,33 +261,42 @@ namespace XNA2DSkeletalAnimation
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                face.a_Origin += new Vector2(0, -10);
+                sRoot.Position += new Vector2(0, -1);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                face.a_Origin += new Vector2(0, 10);
+                sRoot.Position += new Vector2(0, 1);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                face.a_Origin += new Vector2(-10,0);
+                sRoot.Position += new Vector2(-1, 0);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                face.a_Origin += new Vector2(10,0);
+                //sRoot.Position += new Vector2(1, 0);
+                rShoulder.Direction += new Vector2(0, 0.01f);
+                rShoulder.Direction.Normalize();
             }
 
 
 
+
             // TODO: Add your update logic here
-            face.updateTime(gameTime);
-            chest.updateTime(gameTime);
-            arm1.updateTime(gameTime);
-            arm2.updateTime(gameTime);
-            foot1.updateTime(gameTime);
-            foot2.updateTime(gameTime);
+            //face.updateTime(gameTime);
+            //chest.updateTime(gameTime);
+            //arm1.updateTime(gameTime);
+            //arm2.updateTime(gameTime);
+            //foot1.updateTime(gameTime);
+            //foot2.updateTime(gameTime);
+
+            animateBones(sRoot, time, 60);
+            time++;
+
+            if (time > 60 * 4)
+                time = 0;
 
 
             //calculate ms/s
@@ -314,7 +334,10 @@ namespace XNA2DSkeletalAnimation
             spriteBatch.Draw(foot2.a_Texture, foot2.getKeyPosition() + foot2.a_RotationOrigin, null, Color.White, foot2.getKeyRotation(), foot2.a_RotationOrigin, Vector2.One, SpriteEffects.None, 0f);
             */
 
-            drawBones(root);
+
+            //drawLine(line, new Vector2(100, 100), new Vector2(500, 300), Color.White);
+
+            drawBones(sRoot);
 
             spriteBatch.DrawString(font, "fps: " + 1000 / avg, Vector2.Zero, Color.Red);
 
@@ -330,21 +353,76 @@ namespace XNA2DSkeletalAnimation
         {
 
             if (!root.IsRootMaster && !root.IsNoVis)
-                spriteBatch.Draw(textures[root.TextureName], root.Position + root.RotationOrigin, null, Color.White, root.Angle, root.RotationOrigin, Vector2.One, SpriteEffects.None, 0f);
+                //drawLine(line, root.Position, root.Position + root.Direction * root.Length, Color.White);
+                drawBoneLine(line, root, Color.White);
+                //spriteBatch.Draw(textures[root.TextureName], root.Position + root.RotationOrigin, null, Color.White, root.Angle, root.RotationOrigin, Vector2.One, SpriteEffects.None, 0f);
+
 
             for (int i = 0; i < root.Children.Count; i++)
                 drawBones(root.Children[i]);
         }
 
-        private Vector2 calcBonePosition(Bone parent)
+
+        private void drawLine(Texture2D tex, Vector2 a, Vector2 b, Color color)
         {
+            Vector2 origin = new Vector2(0.5f, 0f);
+            Vector2 diff = b - a;
 
-            Vector2 offset = parent.Position;
-            offset.Normalize();
+            Vector2 scale = new Vector2(1.0f, diff.Length()/tex.Height);
 
-            offset = VectorHelper.rotateVectorRadians(offset, parent.Angle);
+            float angle = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
 
-            return parent.Position + offset * parent.Length;
+            spriteBatch.Draw(tex, a, null, color, angle, origin, scale, SpriteEffects.None, 1.0f);
+        }
+
+        private void drawBoneLine(Texture2D tex, Bone root, Color color)
+        {
+            Vector2 origin = new Vector2(2f, 0f);
+            Vector2 diff = root.Direction * root.Length;//root.Position - (root.Position + root.Direction * root.Length);
+
+            Vector2 scale = new Vector2(1.0f, diff.Length() / tex.Height);
+
+            float angle = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
+
+            spriteBatch.Draw(tex, root.Position, null, color, angle, origin, scale, SpriteEffects.None, 1.0f);
+        }
+
+
+        private void animateBones(Bone root, int time, int rate)
+        {
+            float ang, len, tim;
+
+            for (int i = 0; i < root.KeyFrames.Count; i++)
+            {
+                if (root.KeyFrames[i].time * rate == time)
+                {
+                    if (i != root.KeyFrames.Count - 1)
+                    {
+                        tim = root.KeyFrames[i + 1].time*rate - root.KeyFrames[i].time*rate;
+                        ang = root.KeyFrames[i + 1].angle - root.KeyFrames[i].angle;
+                        len = root.KeyFrames[i + 1].length - root.KeyFrames[i].length;
+
+                        root.AngleOff = ang / tim;
+                        root.LengthOff = len / tim;
+                    }
+                    else
+                    {
+                        root.AngleOff = 0;
+                        root.LengthOff = 0;
+                    }
+                }
+            }
+
+            root.Angle += root.AngleOff;
+            root.Length += root.LengthOff;
+
+            for (int i = 0; i < root.Children.Count; i++)
+                animateBones(root.Children[i], time, rate);
+        }
+
+        private Vector2 calcPosition(Bone parent)
+        {
+            return parent.Position + parent.Direction * parent.Length;
         }
     }
 }

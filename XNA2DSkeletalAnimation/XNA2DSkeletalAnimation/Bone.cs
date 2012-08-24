@@ -52,7 +52,12 @@ namespace XNA2DSkeletalAnimation
 
         public Vector2 Position
         {
-            get { return b_Position; }
+            get {
+                if (this.Parent != null)
+                    return this.Parent.Position + this.Parent.Direction * this.Parent.Length;
+                else
+                    return b_Position;
+            }
             set { b_Position = value; }
         }
 
@@ -64,12 +69,36 @@ namespace XNA2DSkeletalAnimation
             set { b_RotationOrigin = value; }
         }
 
-        private int b_Length;
+        private Vector2 b_Direction;
 
-        public int Length
+        public Vector2 Direction
+        {
+            get { return b_Direction; }
+            set { b_Direction = value; }
+        }
+
+        private float b_Length;
+
+        public float Length
         {
             get { return b_Length; }
             set { b_Length = value; }
+        }
+
+        private float b_AngleOff;
+
+        public float AngleOff
+        {
+            get { return b_AngleOff; }
+            set { b_AngleOff = value; }
+        }
+
+        private float b_LengthOff;
+
+        public float LengthOff
+        {
+            get { return b_LengthOff; }
+            set { b_LengthOff = value; }
         }
 
         private bool b_IsRootMaster = false;
