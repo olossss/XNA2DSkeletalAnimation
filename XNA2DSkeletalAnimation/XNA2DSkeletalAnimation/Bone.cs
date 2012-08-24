@@ -116,6 +116,14 @@ namespace XNA2DSkeletalAnimation
             get { return b_IsNoVis; }
             set { b_IsNoVis = value; }
         }
+		
+		private bool b_TextureFlip = false;
+		
+		public bool TextureFlip
+		{
+			get{return b_TextureFlip;}
+			set{b_TextureFlip = value;}			
+		}
 
         private String b_TextureName;
 

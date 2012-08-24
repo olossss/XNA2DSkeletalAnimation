@@ -9,7 +9,16 @@ namespace XNA2DSkeletalAnimation
 {
     public static class VectorHelper
     {
-
+		
+		public static Vector2 normalize(Vector2 vec)
+		{
+			float val = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
+			
+			Vector2 resp = new Vector2(vec.X / val, vec.Y / val);
+			
+			return resp;
+		}
+		
         public static float getAngle(Vector2 a, Vector2 b)
         {
             Vector2 ta = a;
