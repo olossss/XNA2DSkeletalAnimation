@@ -395,7 +395,7 @@ namespace XNA2DSkeletalAnimation
             }
 
 
-            animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, .1f);
+            animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, .5f);
 
             //animate(rHand, rHand, target, .1f);
 
@@ -487,8 +487,8 @@ namespace XNA2DSkeletalAnimation
 
             Vector2 toTarget = VectorHelper.normalize(target - tip);
 
-            /*
-            float curAngle = VectorHelper.getSignedAngle(VectorHelper.normalize(tip - bone.Position),VectorHelper.normalize(bone.Position - bone.Parent.Position));
+            
+            float curAngle = VectorHelper.getSignedAngle(VectorHelper.normalize(bone.Position - bone.Parent.Position),VectorHelper.normalize(tip - bone.Position));
             //float curAngle = VectorHelper.getAngle2(VectorHelper.normalize(bone.Position - bone.Parent.Position), VectorHelper.normalize(tip - bone.Position));
             //float curAngle = VectorHelper.getAngle2(bone.Parent.Position + bone.Parent.Direction * bone.Parent.Length, tip);
 
@@ -500,22 +500,28 @@ namespace XNA2DSkeletalAnimation
             if(curAngle >= bone.MinAngle && curAngle <= bone.MaxAngle)
                 bone.Direction = VectorHelper.normalize(bone.Direction + toTarget * speed);
             
-            float angle;
+            curAngle = VectorHelper.getSignedAngle(VectorHelper.normalize(bone.Position - bone.Parent.Position),VectorHelper.normalize(tip - bone.Position));
+
+            if (bone.Parent.IsRootMaster)
+                curAngle = 0f;
+            
+            float angleCorrect;
 
             if (curAngle < bone.MinAngle)
             {
-                angle = bone.MinAngle -curAngle;
-                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(bone.Direction, angle ));
+                angleCorrect = bone.MinAngle - (curAngle);
+                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip-bone.Position, angleCorrect * speed));
+                //bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, bone.MinAngle));
             }
-            
-            if (curAngle > bone.MaxAngle)
+            else if (curAngle > bone.MaxAngle)
             {
-                angle = bone.MaxAngle - curAngle;
-                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(bone.Direction, angle));
-            }*/
+                angleCorrect = bone.MaxAngle - (curAngle);
+                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, angleCorrect * speed));
+                //bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, bone.MaxAngle));
+            }
 
 
-            
+            /*GOOD FROM HERE DOWN
             float angle = Vector2.Dot(VectorHelper.getLeftNormal(bone.Direction), toTarget);
             float rotVal = -angle * speed;
 
@@ -550,10 +556,10 @@ namespace XNA2DSkeletalAnimation
                 angleCorrect = bone.MaxAngle - (curAngle);
                 bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, angleCorrect * speed));
                 //bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(VectorHelper.normalize(bone.Position - bone.Parent.Position), bone.MaxAngle * speed));
-            }
+            }*/
            
             if(bone.Parent != null)
-                animate(effector,bone.Parent, target, speed);
+                animate(effector,bone.Parent, tip, speed*0.95f);
         }
 
         private Vector2 calcPosition(Bone parent)
@@ -585,8 +591,8 @@ namespace XNA2DSkeletalAnimation
                 bone.Length = boneLength;
                 bone.RotationOrigin = new Vector2(2, 0);
                 bone.Direction = new Vector2(1, 0);
-                bone.MinAngle = MathHelper.ToRadians(-30);
-                bone.MaxAngle = MathHelper.ToRadians(30);
+                bone.MinAngle = MathHelper.ToRadians(-60);
+                bone.MaxAngle = MathHelper.ToRadians(60);
                 bone.TextureName = TextureName;
 
                 list.Add(bone);
