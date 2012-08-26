@@ -24,6 +24,15 @@ namespace XNA2DSkeletalAnimation
             set { b_Children = value; }
         }
 
+        private bool b_IsRigid = false;
+
+        public bool IsRigid
+        {
+            get { return b_IsRigid; }
+            set { b_IsRigid = value; }
+        }
+
+
         private float b_Angle;
 
         public float Angle
