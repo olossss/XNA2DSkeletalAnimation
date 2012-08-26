@@ -64,8 +64,8 @@ namespace XNA2DSkeletalAnimation
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            //graphics.PreferredBackBufferHeight = 1050;
-            //graphics.PreferredBackBufferWidth = 1680;
+            graphics.PreferredBackBufferHeight = 1050;
+            graphics.PreferredBackBufferWidth = 1680;
             //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = true;
             this.IsFixedTimeStep = true;
@@ -293,7 +293,7 @@ namespace XNA2DSkeletalAnimation
 
 
             
-            boneList = populateBones(100, 16, "line");
+            boneList = populateBones(75, 32, "line");
 
             base.Initialize();
         }
@@ -395,7 +395,7 @@ namespace XNA2DSkeletalAnimation
             }
 
 
-            animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, .7f);
+            animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, .1f);
 
             //animate(rHand, rHand, target, .1f);
 
@@ -482,7 +482,7 @@ namespace XNA2DSkeletalAnimation
 
             Vector2 tip = bone.Position + bone.Direction * bone.Length;
 
-            if (Vector2.Distance(bone.Position + bone.Direction * bone.Length, target) < bone.Length * 0.10f)
+            if (Vector2.Distance(effector.Position + effector.Direction * effector.Length, this.target) < effector.Length * 0.15f)
                 return;
 
             Vector2 toTarget = VectorHelper.normalize(target - tip);
@@ -553,7 +553,7 @@ namespace XNA2DSkeletalAnimation
             }
            
             if(bone.Parent != null)
-                animate(effector,bone.Parent, tip, speed);
+                animate(effector,bone.Parent, target, speed);
         }
 
         private Vector2 calcPosition(Bone parent)
@@ -567,7 +567,8 @@ namespace XNA2DSkeletalAnimation
             Bone root = new Bone();
             root.IsRootMaster = true;
             root.IsNoVis = true;
-            root.Position = new Vector2(760 / 2, 480 / 2);
+
+            root.Position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
             root.Length = 0;
             root.Angle = 0;
             root.Direction = new Vector2(0, 0);
@@ -584,8 +585,8 @@ namespace XNA2DSkeletalAnimation
                 bone.Length = boneLength;
                 bone.RotationOrigin = new Vector2(2, 0);
                 bone.Direction = new Vector2(1, 0);
-                bone.MinAngle = MathHelper.ToRadians(-45);
-                bone.MaxAngle = MathHelper.ToRadians(45);
+                bone.MinAngle = MathHelper.ToRadians(-30);
+                bone.MaxAngle = MathHelper.ToRadians(30);
                 bone.TextureName = TextureName;
 
                 list.Add(bone);
