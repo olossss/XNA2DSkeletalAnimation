@@ -46,9 +46,10 @@ namespace XNA2DSkeletalAnimation
 
         private List<Bone> boneList = new List<Bone>();
 
-
+        private bool toggleTip = true;
 
         private MouseState prevMouse, currMouse;
+        private KeyboardState prevKeyboard, curKeyboard;
         private Vector2 target = Vector2.Zero;
 
         private int time = 0;
@@ -64,8 +65,8 @@ namespace XNA2DSkeletalAnimation
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 1050;
-            graphics.PreferredBackBufferWidth = 1680;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = (int)(900*1.6f);
             //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = true;
             this.IsFixedTimeStep = true;
@@ -293,7 +294,7 @@ namespace XNA2DSkeletalAnimation
 
 
             
-            boneList = populateBones(75, 32, "line");
+            boneList = populateBones(50, 32, "line");
 
             base.Initialize();
         }
@@ -343,7 +344,8 @@ namespace XNA2DSkeletalAnimation
         {
             prevMouse = currMouse;
             currMouse = Mouse.GetState();
-
+            prevKeyboard = curKeyboard;
+            curKeyboard = Keyboard.GetState();
 
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -392,6 +394,14 @@ namespace XNA2DSkeletalAnimation
             if (prevMouse.X != currMouse.X || prevMouse.Y != currMouse.Y)
             {
                 target = new Vector2(currMouse.X, currMouse.Y);// -new Vector2(760 / 2, 480 / 2);
+            }
+
+            if (curKeyboard.IsKeyUp(Keys.Delete) && prevKeyboard.IsKeyDown(Keys.Delete))
+            {
+                if (toggleTip)
+                    toggleTip = false;
+                else
+                    toggleTip = true;
             }
 
 
@@ -557,9 +567,15 @@ namespace XNA2DSkeletalAnimation
                 bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, angleCorrect * speed));
                 //bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(VectorHelper.normalize(bone.Position - bone.Parent.Position), bone.MaxAngle * speed));
             }*/
-           
-            if(bone.Parent != null)
-                animate(effector,bone.Parent, tip, speed*0.95f);
+
+            if (bone.Parent != null)
+            {
+                if (toggleTip)
+                    animate(effector, bone.Parent, tip, speed * 0.95f);
+                else
+                    animate(effector, bone.Parent, target, speed * 0.95f);
+            }
+
         }
 
         private Vector2 calcPosition(Bone parent)
@@ -591,8 +607,8 @@ namespace XNA2DSkeletalAnimation
                 bone.Length = boneLength;
                 bone.RotationOrigin = new Vector2(2, 0);
                 bone.Direction = new Vector2(1, 0);
-                bone.MinAngle = MathHelper.ToRadians(-60);
-                bone.MaxAngle = MathHelper.ToRadians(60);
+                bone.MinAngle = MathHelper.ToRadians(-15);
+                bone.MaxAngle = MathHelper.ToRadians(15);
                 bone.TextureName = TextureName;
 
                 list.Add(bone);
