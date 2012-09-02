@@ -28,14 +28,20 @@ namespace XNA2DSkeletalAnimation
 
         private Texture2D line;
         private Texture2D mouse;
+        private Texture2D LL;
 
         private Bone sRoot;
         private Bone head;
-        private Bone body;
+        private Bone uBody;
+        private Bone lBody;
+        private Bone lHip;
+        private Bone rHip;
 		private Bone ulLeg;
 		private Bone urLeg;
 		private Bone llLeg;
 		private Bone lrLeg;
+        private Bone lFoot;
+        private Bone rFoot;
         private Bone lShoulder;
         private Bone rShoulder;
         private Bone ulArm;
@@ -171,50 +177,112 @@ namespace XNA2DSkeletalAnimation
             head.TextureName = "face";
 			head.TextureFlip = true;
 
-            body = new Bone();
-            body.Parent = sRoot;
-            body.Position = calcPosition(body.Parent);//new Vector2(0, 0) + body.Parent.Position;
-            body.Angle = MathHelper.ToRadians(0);
-            body.Length = 24;
-            body.RotationOrigin = new Vector2(8, 0);
-            body.Direction = new Vector2(0, 1);
-            body.TextureName = "chest";
-			
-			ulLeg = new Bone();
-			ulLeg.Parent = body;
-			ulLeg.Position = calcPosition(ulLeg.Parent);
-			ulLeg.Angle = MathHelper.ToRadians(-60);
-			ulLeg.Length = 16;
-			ulLeg.RotationOrigin = new Vector2(3,0);
-			ulLeg.Direction = new Vector2(-0.5f,0.5f);
-			ulLeg.TextureName = "arm";
-			
-			urLeg = new Bone();
-			urLeg.Parent = body;
+            uBody = new Bone();
+            uBody.Parent = sRoot;
+            uBody.Position = calcPosition(uBody.Parent);//new Vector2(0, 0) + body.Parent.Position;
+            uBody.Angle = MathHelper.ToRadians(0);
+            uBody.Length = 12;
+            uBody.RotationOrigin = new Vector2(8, 0);
+            uBody.Direction = new Vector2(0, 1);
+            uBody.TextureName = "uBody";
+
+            lBody = new Bone();
+            lBody.Parent = uBody;
+            lBody.Position = calcPosition(lBody.Parent);
+            lBody.Length = 8;
+            lBody.RotationOrigin = new Vector2(8, 0);
+            lBody.Direction = new Vector2(0, 1);
+            lBody.TextureName = "lBody";
+
+            lHip = new Bone();
+            lHip.Parent = lBody;
+            lHip.Position = calcPosition(lHip.Parent);
+            lHip.Length = 6;
+            lHip.RotationOrigin = new Vector2(3, 0);
+            lHip.Direction = VectorHelper.normalize(new Vector2(-1,0));
+            lHip.TextureName = "";
+            lHip.MinAngle = MathHelper.ToRadians(5);
+            lHip.MaxAngle = MathHelper.ToRadians(-5);
+            lHip.IsNoVis = true;
+            lHip.IsRigid = true;
+
+            ulLeg = new Bone();
+            ulLeg.Parent = lHip;
+            ulLeg.Position = calcPosition(ulLeg.Parent);
+            ulLeg.Angle = MathHelper.ToRadians(-60);
+            ulLeg.Length = 6;
+            ulLeg.RotationOrigin = new Vector2(3, 0);
+            ulLeg.Direction = new Vector2(0, 1);
+            ulLeg.MinAngle = MathHelper.ToRadians(-90);
+            ulLeg.MaxAngle = MathHelper.ToRadians(0);
+            ulLeg.TextureName = "leg";
+
+            llLeg = new Bone();
+            llLeg.Parent = ulLeg;
+            llLeg.Position = calcPosition(llLeg.Parent);
+            llLeg.Angle = MathHelper.ToRadians(-60);
+            llLeg.Length = 6;
+            llLeg.RotationOrigin = new Vector2(3, 0);
+            llLeg.Direction = new Vector2(0, 1);
+            llLeg.MinAngle = MathHelper.ToRadians(-60);
+            llLeg.MaxAngle = MathHelper.ToRadians(0);
+            llLeg.TextureName = "leg";
+
+            lFoot = new Bone();
+            lFoot.Parent = llLeg;
+            lFoot.Position = calcPosition(lFoot.Parent);
+            lFoot.Angle = MathHelper.ToRadians(-60);
+            lFoot.Length = 6;
+            lFoot.RotationOrigin = new Vector2(3, 0);
+            lFoot.Direction = new Vector2(0, 1);
+            lFoot.MinAngle = MathHelper.ToRadians(-15);
+            lFoot.MaxAngle = MathHelper.ToRadians(15);
+            lFoot.TextureName = "foot";
+
+            rHip = new Bone();
+            rHip.Parent = lBody;
+            rHip.Position = calcPosition(rHip.Parent);
+            rHip.Length = 6;
+            rHip.RotationOrigin = new Vector2(3, 0);
+            rHip.Direction = VectorHelper.normalize( new Vector2(1, 0));
+            rHip.TextureName = "";
+            rHip.MinAngle = MathHelper.ToRadians(-5);
+            rHip.MaxAngle = MathHelper.ToRadians(5);
+            rHip.IsNoVis = true;
+            rHip.IsRigid = true;
+
+            urLeg = new Bone();
+            urLeg.Parent = rHip;
 			urLeg.Position = calcPosition(urLeg.Parent);
 			urLeg.Angle = MathHelper.ToRadians(-60);
-			urLeg.Length = 16;
+			urLeg.Length = 6;
 			urLeg.RotationOrigin = new Vector2(3,0);
-			urLeg.Direction = new Vector2(0.5f,0.5f);
-			urLeg.TextureName = "arm";
-			
-			llLeg = new Bone();
-			llLeg.Parent = ulLeg;
-			llLeg.Position = calcPosition(llLeg.Parent);
-			llLeg.Angle = MathHelper.ToRadians(-60);
-			llLeg.Length = 8;
-			llLeg.RotationOrigin = new Vector2(3,0);
-			llLeg.Direction = new Vector2(0,1);
-			llLeg.TextureName = "foot";
+			urLeg.Direction = new Vector2(0f,1);
+            urLeg.MinAngle = MathHelper.ToRadians(0);
+            urLeg.MaxAngle = MathHelper.ToRadians(90);
+            urLeg.TextureName = "leg";
 			
 			lrLeg = new Bone();
 			lrLeg.Parent = urLeg;
 			lrLeg.Position = calcPosition(lrLeg.Parent);
 			lrLeg.Angle = MathHelper.ToRadians(-60);
-			lrLeg.Length = 8;
+			lrLeg.Length = 6;
 			lrLeg.RotationOrigin = new Vector2(3,0);
 			lrLeg.Direction = new Vector2(0,1);
-			lrLeg.TextureName = "foot";
+            lrLeg.MinAngle = MathHelper.ToRadians(0);
+            lrLeg.MaxAngle = MathHelper.ToRadians(60);
+            lrLeg.TextureName = "leg";
+
+            rFoot = new Bone();
+            rFoot.Parent = lrLeg;
+            rFoot.Position = calcPosition(rFoot.Parent);
+            rFoot.Angle = MathHelper.ToRadians(-60);
+            rFoot.Length = 6;
+            rFoot.RotationOrigin = new Vector2(3, 0);
+            rFoot.Direction = new Vector2(0, 1);
+            rFoot.MinAngle = MathHelper.ToRadians(-15);
+            rFoot.MaxAngle = MathHelper.ToRadians(15);
+            rFoot.TextureName = "foot";
 			
             lShoulder = new Bone();
             lShoulder.Parent = sRoot;
@@ -237,7 +305,7 @@ namespace XNA2DSkeletalAnimation
             ulArm.RotationOrigin = new Vector2(3, 0);
             ulArm.Direction = new Vector2(-1, 0);
             ulArm.MinAngle = MathHelper.ToRadians(-90);
-            ulArm.MaxAngle = MathHelper.ToRadians(60);
+            ulArm.MaxAngle = MathHelper.ToRadians(15);
             ulArm.TextureName = "arm";
 
             llArm = new Bone();
@@ -281,7 +349,7 @@ namespace XNA2DSkeletalAnimation
             urArm.Length = 6;
             urArm.RotationOrigin = new Vector2(3, 0);
             urArm.Direction = new Vector2(1, 0);
-            urArm.MinAngle = MathHelper.ToRadians(-60);
+            urArm.MinAngle = MathHelper.ToRadians(-15);
             urArm.MaxAngle = MathHelper.ToRadians(90);
             urArm.TextureName = "arm";
 
@@ -307,19 +375,24 @@ namespace XNA2DSkeletalAnimation
             rHand.TextureName = "hand";
 
             sRoot.Children.Add(head);
-            sRoot.Children.Add(body);
-			body.Children.Add(ulLeg);
-			ulLeg.Children.Add(llLeg);
-			body.Children.Add(urLeg);
-			urLeg.Children.Add(lrLeg);
+            sRoot.Children.Add(uBody);
+			    uBody.Children.Add(lBody);
+                    lBody.Children.Add(lHip);
+                        lHip.Children.Add(ulLeg);
+                            ulLeg.Children.Add(llLeg);
+                                llLeg.Children.Add(lFoot);
+                    lBody.Children.Add(rHip);
+                        rHip.Children.Add(urLeg);
+			                urLeg.Children.Add(lrLeg);
+                                lrLeg.Children.Add(rFoot);
             sRoot.Children.Add(lShoulder);
-            lShoulder.Children.Add(ulArm);
-            ulArm.Children.Add(llArm);
-            llArm.Children.Add(lHand);
+                lShoulder.Children.Add(ulArm);
+                    ulArm.Children.Add(llArm);
+                        llArm.Children.Add(lHand);
             sRoot.Children.Add(rShoulder);
-            rShoulder.Children.Add(urArm);
-            urArm.Children.Add(lrArm);
-            lrArm.Children.Add(rHand);
+                rShoulder.Children.Add(urArm);
+                    urArm.Children.Add(lrArm);
+                        lrArm.Children.Add(rHand);
 
 
             
@@ -342,14 +415,18 @@ namespace XNA2DSkeletalAnimation
             
             line = Content.Load<Texture2D>("line");
             mouse = Content.Load<Texture2D>("origin");
+            LL = Content.Load<Texture2D>("lord_lard_sheet");
 
             textures.Add("face", Content.Load<Texture2D>("face"));
-            textures.Add("chest", Content.Load<Texture2D>("chest"));
+            textures.Add("uBody", Content.Load<Texture2D>("uBody"));
+            textures.Add("lBody", Content.Load<Texture2D>("lBody"));
             textures.Add("arm",  Content.Load<Texture2D>("arm"));
 			textures.Add("foot", Content.Load<Texture2D>("foot"));
             textures.Add("line", Content.Load<Texture2D>("line"));
             textures.Add("hand", Content.Load<Texture2D>("hand"));
+            textures.Add("leg", Content.Load<Texture2D>("leg"));
                 
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -382,22 +459,22 @@ namespace XNA2DSkeletalAnimation
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                boneList[0].Position += new Vector2(0, -10);
+                sRoot.Position += new Vector2(0, -10);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                boneList[0].Position += new Vector2(0, 10);
+                sRoot.Position += new Vector2(0, 10);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                boneList[0].Position += new Vector2(-10, 0);
+                sRoot.Position += new Vector2(-10, 0);
             }
 			
 			if (Keyboard.GetState().IsKeyDown(Keys.Right))
 			{
-                boneList[0].Position += new Vector2(10, 0);
+                sRoot.Position += new Vector2(10, 0);
 			}
 
             if (Keyboard.GetState().IsKeyDown(Keys.OemOpenBrackets))
@@ -433,12 +510,22 @@ namespace XNA2DSkeletalAnimation
                     toggleTip = true;
             }
 
+            if(curKeyboard.IsKeyUp(Keys.Insert) && prevKeyboard.IsKeyDown(Keys.Insert))
+            {
+                if (lShoulder.Length == 11)
+                    lShoulder.Length = 4;
+                else
+                    lShoulder.Length = 11;
+            }
 
-            animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, target, 0.1f,0.95f);
+
+            //animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, target, 0.1f,0.95f);
             //animate(boneList[boneList.Count / 2], boneList[boneList.Count / 2], new Vector2(graphics.PreferredBackBufferWidth / 2, 100), new Vector2(graphics.PreferredBackBufferWidth/2, 100), 0.5f);
 
-            //animate(rHand, rHand, target, target, .25f, 0.95f);
-            //animate(lHand, lHand, target, target, .25f, 0.95f);
+            animate(rFoot, rFoot, target, target, .25f, 0.95f);
+            animate(lFoot, lFoot, target, target, .25f, 0.95f);
+            animate(lHand, lHand, target, target, .25f, 0.95f);
+            animate(rHand, rHand, target, target, .25f, 0.95f);
 
 
             if (time > 60 * 4)
@@ -471,8 +558,10 @@ namespace XNA2DSkeletalAnimation
 
             spriteBatch.Draw(mouse, target, Color.CornflowerBlue);
 
-            drawBones(boneList[0]);
-            //drawBones(sRoot);
+            spriteBatch.Draw(LL, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), new Rectangle(0, 0, 32, 32), Color.White);
+
+            //drawBones(boneList[0]);
+            drawBones(sRoot);
 
             spriteBatch.DrawString(font, "fps: " +  avg, Vector2.Zero, Color.Red);
 
@@ -483,32 +572,32 @@ namespace XNA2DSkeletalAnimation
 
 
 
-        private void drawBones(Bone root)
+        private void drawBones(Bone bone)
         {
 
-            if (!root.IsRootMaster && !root.IsNoVis)
+            if (!bone.IsRootMaster && !bone.IsNoVis)
 
-				drawBoneLine(textures[root.TextureName], root, Color.White);
+				drawBoneLine(textures[bone.TextureName], bone, Color.White);
 
-            for (int i = 0; i < root.Children.Count; i++)
-                drawBones(root.Children[i]);
+            for (int i = 0; i < bone.Children.Count; i++)
+                drawBones(bone.Children[i]);
         }
 
-        private void drawBoneLine(Texture2D tex, Bone root, Color color)
+        private void drawBoneLine(Texture2D tex, Bone bone, Color color)
         {
-            Vector2 origin = root.RotationOrigin;//new Vector2(2f, 0f);
-            Vector2 diff = root.Direction * root.Length;//root.Position - (root.Position + root.Direction * root.Length);
+            Vector2 origin = bone.RotationOrigin;//new Vector2(2f, 0f);
+            Vector2 diff = bone.Direction * bone.Length;//root.Position - (root.Position + root.Direction * root.Length);
 
             Vector2 scale = new Vector2(1.0f, diff.Length() / tex.Height);
 
             float angle = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
 			
-			if(root.TextureFlip)
+			if(bone.TextureFlip)
 			{
-            	spriteBatch.Draw(tex, root.Position, null, color, angle, origin, scale, SpriteEffects.FlipVertically, 1.0f);
+            	spriteBatch.Draw(tex, bone.Position, null, color, angle, origin, scale, SpriteEffects.FlipVertically, 1.0f);
 			}else
 			{
-				spriteBatch.Draw(tex, root.Position, null, color, angle, origin, scale, SpriteEffects.None, 1.0f);
+				spriteBatch.Draw(tex, bone.Position, null, color, angle, origin, scale, SpriteEffects.None, 1.0f);
 			}
         }
 
@@ -523,7 +612,7 @@ namespace XNA2DSkeletalAnimation
 
             Vector2 tip = bone.Position + bone.Direction * bone.Length;
 
-            if (Vector2.Distance(effector.Position + effector.Direction * effector.Length, effectorTarget) < effector.Length * 0.15f)
+            if (Vector2.Distance(effector.Position + effector.Direction * effector.Length, effectorTarget) < effector.Length * 0.05f)
               return;
 
             Vector2 toTarget = VectorHelper.normalize(boneTarget - tip);
@@ -551,13 +640,13 @@ namespace XNA2DSkeletalAnimation
             if (curAngle < bone.MinAngle)
             {
                 angleCorrect = bone.MinAngle - (curAngle);
-                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, angleCorrect));
+                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, angleCorrect+0.000001f));
                 //bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, -bone.MinAngle-0.000001f));
             }
             else if (curAngle > bone.MaxAngle)
             {
                 angleCorrect = bone.MaxAngle - (curAngle);
-                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, angleCorrect ));
+                bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, angleCorrect - 0.000001f));
                 //bone.Direction = VectorHelper.normalize(VectorHelper.rotateVectorRadians(tip - bone.Position, -bone.MaxAngle+0.000001f));
             }
 
