@@ -2,7 +2,7 @@ using System;
 
 namespace XNA2DSkeletalAnimation
 {
-#if WINDOWS || XBOX
+
     static class Program
     {
         /// <summary>
@@ -16,6 +16,6 @@ namespace XNA2DSkeletalAnimation
             }
         }
     }
-#endif
+
 }
 

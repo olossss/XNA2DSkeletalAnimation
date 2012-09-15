@@ -54,6 +54,7 @@ namespace XNA2DSkeletalAnimation
         private List<Bone> boneList = new List<Bone>();
 
         private bool toggleTip = true;
+		private bool toggleModel = true;
 
         private MouseState prevMouse, currMouse;
         private KeyboardState prevKeyboard, curKeyboard;
@@ -517,16 +518,29 @@ namespace XNA2DSkeletalAnimation
                 else
                     lShoulder.Length = 11;
             }
+			
+			if(curKeyboard.IsKeyUp(Keys.Home) && prevKeyboard.IsKeyDown(Keys.Home))
+			{
+				if(toggleModel)
+					toggleModel = false;
+				else
+					toggleModel = true;
+			}
 
-
-            //animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, target, 0.1f,0.95f);
+			
+			if(!toggleModel)
+			{
+            	animate(boneList[boneList.Count-1],boneList[boneList.Count-1], target, target, 0.1f,.95f);
             //animate(boneList[boneList.Count / 2], boneList[boneList.Count / 2], new Vector2(graphics.PreferredBackBufferWidth / 2, 100), new Vector2(graphics.PreferredBackBufferWidth/2, 100), 0.5f);
-
-            animate(rFoot, rFoot, target, target, .25f, 0.95f);
-            animate(lFoot, lFoot, target, target, .25f, 0.95f);
-            animate(lHand, lHand, target, target, .25f, 0.95f);
-            animate(rHand, rHand, target, target, .25f, 0.95f);
-
+				
+			}
+			else
+			{
+	            animate(rFoot, rFoot, target, target, .25f, 0.95f);
+	            animate(lFoot, lFoot, target, target, .25f, 0.95f);
+	            animate(lHand, lHand, target, target, .25f, 0.95f);
+	            animate(rHand, rHand, target, target, .25f, 0.95f);
+			}
 
             if (time > 60 * 4)
                 time = 0;
@@ -559,9 +573,11 @@ namespace XNA2DSkeletalAnimation
             spriteBatch.Draw(mouse, target, Color.CornflowerBlue);
 
             spriteBatch.Draw(LL, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), new Rectangle(0, 0, 32, 32), Color.White);
-
-            //drawBones(boneList[0]);
-            drawBones(sRoot);
+			
+			if(!toggleModel)
+            	drawBones(boneList[0]);
+            else
+				drawBones(sRoot);
 
             spriteBatch.DrawString(font, "fps: " +  avg, Vector2.Zero, Color.Red);
 
