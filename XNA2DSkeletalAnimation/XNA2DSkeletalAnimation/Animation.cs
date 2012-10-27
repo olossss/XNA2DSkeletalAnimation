@@ -10,19 +10,61 @@ namespace XNA2DSkeletalAnimation
 {
     class Animation
     {
-        public int a_ElapsedTime;
+        private int a_ElapsedTime;
 
-        public int a_AnimationTime;
+        public int ElapsedTime
+        {
+            get { return a_ElapsedTime; }
+            set { a_ElapsedTime = value; }
+        }
 
-        public List<KeyFrame> a_KeyFrames = new List<KeyFrame>();
+        private int a_AnimationTime;
 
-        public Texture2D a_Texture;
+        public int AnimationTime
+        {
+            get { return a_AnimationTime; }
+            set { a_AnimationTime = value; }
+        }
 
-        public Vector2 a_Origin;
+        private List<KeyFrame> a_KeyFrames = new List<KeyFrame>();
 
-        public Vector2 a_RotationOrigin;
+        public List<KeyFrame> KeyFrames
+        {
+            get { return a_KeyFrames; }
+            set { a_KeyFrames = value; }
+        }
 
-        public float a_Rotation;
+        private Texture2D a_Texture;
+
+        public Texture2D Texture
+        {
+            get { return a_Texture; }
+            set { a_Texture = value; }
+        }
+
+        private Vector2 a_Origin;
+
+        public Vector2 Origin
+        {
+            get { return a_Origin; }
+            set { a_Origin = value; }
+        }
+
+        private Vector2 a_RotationOrigin;
+
+        public Vector2 RotationOrigin
+        {
+            get { return a_RotationOrigin; }
+            set { a_RotationOrigin = value; }
+        }
+
+        private float a_Rotation;
+
+        public float Rotation
+        {
+            get { return a_Rotation; }
+            set { a_Rotation = value; }
+        }
 
         public void updateTime(GameTime gameTime)
         {

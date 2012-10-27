@@ -73,8 +73,8 @@ namespace XNA2DSkeletalAnimation
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = (int)(900*1.6f);
+            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = (int)(480*1.6f);
             //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = true;
             this.IsFixedTimeStep = true;
@@ -95,70 +95,68 @@ namespace XNA2DSkeletalAnimation
             int time = 1600;
             float key1 = 0.25f, key2 = 0.5f, key3 = 0.75f, key4 = 1f;
 
-
-
             // TODO: Add your initialization logic here
             face = new Animation();
-            face.a_Origin = new Vector2(100, 95);
-            face.a_RotationOrigin = new Vector2(8, 16);
-            face.a_Rotation = .3f;
-            face.a_AnimationTime = time;
-            face.a_KeyFrames.Add(new KeyFrame(0, Vector2.Zero, .3f));
-            face.a_KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 3), 0f));
-            face.a_KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 5), -.3f));
-            face.a_KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 3), 0f));
-            face.a_KeyFrames.Add(new KeyFrame((int)(time * key4), new Vector2(0, 0), .3f));
+            face.Origin = new Vector2(100, 95);
+            face.RotationOrigin = new Vector2(8, 16);
+            face.Rotation = .3f;
+            face.AnimationTime = time;
+            face.KeyFrames.Add(new KeyFrame(0, Vector2.Zero, .3f));
+            face.KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 3), 0f));
+            face.KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 5), -.3f));
+            face.KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 3), 0f));
+            face.KeyFrames.Add(new KeyFrame((int)(time * key4), new Vector2(0, 0), .3f));
 
             chest = new Animation();
-            chest.a_Origin = new Vector2(100, 110);
-            chest.a_RotationOrigin = new Vector2(8, 12);
-            chest.a_AnimationTime = time;
-            chest.a_KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
-            chest.a_KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 4), 0f));
-            chest.a_KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 6), 0f));
-            chest.a_KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 4), 0f));
-            chest.a_KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
+            chest.Origin = new Vector2(100, 110);
+            chest.RotationOrigin = new Vector2(8, 12);
+            chest.AnimationTime = time;
+            chest.KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
+            chest.KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 4), 0f));
+            chest.KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 6), 0f));
+            chest.KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 4), 0f));
+            chest.KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
 
 
             arm1 = new Animation();
-            arm1.a_Origin = new Vector2(116, 110);
-            arm1.a_RotationOrigin = new Vector2(3, 0);
-            arm1.a_AnimationTime = time;
-            arm1.a_KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
-            arm1.a_KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
-            arm1.a_KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), -3.14f));
-            arm1.a_KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
-            arm1.a_KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
+            arm1.Origin = new Vector2(116, 110);
+            arm1.RotationOrigin = new Vector2(3, 0);
+            arm1.AnimationTime = time;
+            arm1.KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
+            arm1.KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
+            arm1.KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), -3.14f));
+            arm1.KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
+            arm1.KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
 
             arm2 = new Animation();
-            arm2.a_Origin = new Vector2(94, 110);
-            arm2.a_RotationOrigin = new Vector2(3, 0);
-            arm2.a_AnimationTime = time;
-            arm2.a_KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
-            arm2.a_KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
-            arm2.a_KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), 3.14f));
-            arm2.a_KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
-            arm2.a_KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
+            arm2.Origin = new Vector2(94, 110);
+            arm2.RotationOrigin = new Vector2(3, 0);
+            arm2.AnimationTime = time;
+            arm2.KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
+            arm2.KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
+            arm2.KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), 3.14f));
+            arm2.KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
+            arm2.KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
 
             foot1 = new Animation();
-            foot1.a_Origin = new Vector2(109, 133);
-            foot1.a_RotationOrigin = new Vector2(3, 0);
-            foot1.a_AnimationTime = time;
-            foot1.a_KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
-            foot1.a_KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
-            foot1.a_KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), -1f));
-            foot1.a_KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
-            foot1.a_KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
+            foot1.Origin = new Vector2(109, 133);
+            foot1.RotationOrigin = new Vector2(3, 0);
+            foot1.AnimationTime = time;
+            foot1.KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
+            foot1.KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
+            foot1.KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), -1f));
+            foot1.KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
+            foot1.KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
 
             foot2 = new Animation();
-            foot2.a_Origin = new Vector2(101, 133);
-            foot2.a_RotationOrigin = new Vector2(3, 0);
-            foot2.a_AnimationTime = time;
-            foot2.a_KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
-            foot2.a_KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
-            foot2.a_KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), 1f));
-            foot2.a_KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
-            foot2.a_KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
+            foot2.Origin = new Vector2(101, 133);
+            foot2.RotationOrigin = new Vector2(3, 0);
+            foot2.AnimationTime = time;
+            foot2.KeyFrames.Add(new KeyFrame(0, Vector2.Zero, 0f));
+            foot2.KeyFrames.Add(new KeyFrame((int)(time * key1), new Vector2(0, 6), 0f));
+            foot2.KeyFrames.Add(new KeyFrame((int)(time * key2), new Vector2(0, 8), 1f));
+            foot2.KeyFrames.Add(new KeyFrame((int)(time * key3), new Vector2(0, 6), 0f));
+            foot2.KeyFrames.Add(new KeyFrame((int)(time * key4), Vector2.Zero, 0f));
 
             sRoot = new Bone();
             sRoot.IsRootMaster = true;
@@ -545,6 +543,12 @@ namespace XNA2DSkeletalAnimation
             if (time > 60 * 4)
                 time = 0;
 
+            face.updateTime(gameTime);
+            chest.updateTime(gameTime);
+            arm1.updateTime(gameTime);
+            arm2.updateTime(gameTime);
+            foot1.updateTime(gameTime);
+            foot2.updateTime(gameTime);
 
             //calculate ms/s
             elapsed += gameTime.ElapsedGameTime.Milliseconds;
@@ -571,6 +575,14 @@ namespace XNA2DSkeletalAnimation
             spriteBatch.Begin();
 
             spriteBatch.Draw(mouse, target, Color.CornflowerBlue);
+
+
+            spriteBatch.Draw(textures["face"], face.getKeyPosition() + face.RotationOrigin, null, Color.White, face.getKeyRotation(), face.RotationOrigin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(textures["uBody"], chest.getKeyPosition() + chest.RotationOrigin, null, Color.White, chest.getKeyRotation(), chest.RotationOrigin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(textures["arm"], arm1.getKeyPosition() + arm1.RotationOrigin, null, Color.White, arm1.getKeyRotation(), arm1.RotationOrigin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(textures["arm"], arm2.getKeyPosition() + arm2.RotationOrigin, null, Color.White, arm2.getKeyRotation(), arm2.RotationOrigin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(textures["foot"], foot1.getKeyPosition() + foot1.RotationOrigin, null, Color.White, foot1.getKeyRotation(), foot1.RotationOrigin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(textures["foot"], foot2.getKeyPosition() + foot2.RotationOrigin, null, Color.White, foot2.getKeyRotation(), foot2.RotationOrigin, 1f, SpriteEffects.None, 1f);
 
             spriteBatch.Draw(LL, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), new Rectangle(0, 0, 32, 32), Color.White);
 			
